@@ -4,6 +4,7 @@ const cors = require("cors");
 const colors = require("colors");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
+const Auth = require('./middleweres/Auth');
 const port = process.env.PORT || 5000;
 
 const app = express()
@@ -79,7 +80,7 @@ app.post("/addUser", async (req, res) => {
     }
 })
 
-app.post("/addService", async (req, res) => {
+app.post("/addService", Auth, async (req, res) => {
     try {
         const serviceData = req.body;
         console.log(serviceData);
@@ -144,7 +145,7 @@ app.post("/getToken", async (req, res) => {
     }
 })
 
-app.post("/addReview", async (req, res) => {
+app.post("/addReview", Auth, async (req, res) => {
     try {
         const reviewData = req.body;
         console.log(reviewData);
@@ -209,7 +210,7 @@ app.get("/users", async (req, res) => {
     }
 })
 
-app.get("/reviews", async (req, res) => {
+app.get("/reviews", Auth, async (req, res) => {
     try {
         const query = {};
         const data = await Reviews.find(query).toArray()
@@ -225,7 +226,7 @@ app.get("/reviews", async (req, res) => {
     }
 })
 
-app.get("/service/:id", async (req, res) => {
+app.get("/service/:id", Auth, async (req, res) => {
     try {
         const { id } = req.params;
         if (id) {
